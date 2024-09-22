@@ -3,6 +3,97 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <!-- going to use username user data -->
+    <div class="greeting col-md-12 col-sm-6 col-xs-12 py-2">
+        <h1>Welcome User</h1>
+    </div>
+    <div class="dashboard-container">
+        <!-- widget box for navigation of major features -->
+        <div class="widget-box">
+            <!-- using unordered list in case time is found to make widget bar dynamic and customisable-->
+            <ul class="items-container">
+                <li role="button">
+                    <div class="item-contain">
+                        <span class="widget-icon">
+                            <i class="fa-solid fa-bolt fa-xl"></i>
+                        </span>
+
+                        <p>Quick Pay</p>
+                    </div>
+                </li>
+
+                <li role="button">
+                    <div class="item-contain">
+                        <span class="widget-icon">
+                            <i class="fa-solid fa-handshake-o fa-xl"></i>
+                        </span>
+
+                        <p>Offers for you</p>
+                    </div>
+                </li>
+
+                <li role="button">
+                    <div class="item-contain">
+                        <span class="widget-icon">
+                            <i class="fa-solid fa-exchange fa-xl"></i>
+                        </span>
+
+                        <p>Quick Transfer</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- to access documentation -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <a role="link" class="float-end" style="margin-right:10px;">
+                        <!-- add icon and words here-->
+                        <i class="fa-solid fa-page4"></i>
+                        <p>Statments and Documents Here</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- accounts container, will contain accounts details, and then later possibly rewards, insurance, investments etc-->
+        <div class="accounts">
+            <div class="account-widget Bank">
+                <!-- Everyday Banking Heading -->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <div class="row">
+                                <div class="col-sm-4" style="display: flex; gap:10px;">
+                                    <span style="font-size: 3em; color: tomato;">
+                                        <i class="fa-solid fa-wallet"></i>
+                                    </span>
+                                    <div>
+                                        Everyday Banking
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    Current Balance
+                                </div>
+
+                                <div class="col-sm-4">
+                                    Available Balance
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 visible-lg">
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+
+                <!-- List of accounts -->
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
