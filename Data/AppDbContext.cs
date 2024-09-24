@@ -22,14 +22,6 @@ namespace KovsieCash_WebApp.Data
 
             // Configure relationships
             modelBuilder.Entity<Account>()
-                .HasMany(a => a.Transactions)
-                .WithOne(t => t.Account)
-                .HasForeignKey(t => t.AccountNumber);
-
-            modelBuilder.Entity<Account>()
-                .HasOne<ApplicationUser>()
-                .WithMany(u => u.Accounts)
-                .HasForeignKey(a => a.UserId);
         }
     }
 }
