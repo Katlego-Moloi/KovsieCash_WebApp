@@ -1,8 +1,21 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿
+@{
 }
+<section class="pt-5 pb-4 d-flex align-items-center position-relative" style="overflow: hidden;">
+    <div class="position-absolute top-0 bottom-0" style="z-index: 1; opacity: 0.15; width: 100%;height: 100%;">
+        <img src="~/images/hero-bg-light.webp" alt="Background Image" style="inset: 0;display: block;width: 100%;height: 100%;object-fit: cover;z-index: 1;">
+    </div>
+    <div class="position-relative text-center" style="z-index:2">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+            <h1>Welcome to Kovsie Cash</h1>
+            <p><br></p>
+            <p>Welcome to KovsieCash, your trusted digital wallet solution at the University of the Free State. Whether you're managing your funds, making quick transactions, or simply checking your balance, our platform is designed to provide secure, easy-to-use financial services for students, staff, and campus vendors. Log in or register now to experience seamless financial management right at your fingertips!<br></p>
+            <div class="d-flex">
+                <a class="btn btn-outline-dark"><i class="fa-solid fa-sign-in-alt" asp-controller="Account" asp-action="Login"></i> Login</a>
+                <a class="btn btn-outline-dark"><i class="fa-solid fa-user-plus" asp-controller="Account" asp-action="Register"></i> Sign Up</a>
+            </div>
+            <img src="~/images/hero-services-img.webp" class="img-fluid" alt="Services Image" style="max-width: 600px" />
+        </div>
+    </div>
+</section>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
