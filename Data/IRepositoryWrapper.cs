@@ -1,6 +1,6 @@
 ﻿namespace KovsieCash_WebApp.Data
 {
-    public interface IUnitOfWork
+    public interface IRepositoryWrapper
     {
         IAccountRepository Accounts { get; }
         ITransactionRepository Transactions { get; }

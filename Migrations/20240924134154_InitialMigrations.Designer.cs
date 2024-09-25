@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KovsieCash_WebApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240923205915_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240924134154_InitialMigrations")]
+    partial class InitialMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,7 +41,7 @@ namespace KovsieCash_WebApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Account", (string)null);
                 });
 
             modelBuilder.Entity("KovsieCash_WebApp.Models.KovsieCash_WebApp.Models.ApplicationUser", b =>
@@ -96,10 +96,6 @@ namespace KovsieCash_WebApp.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserType")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -109,7 +105,7 @@ namespace KovsieCash_WebApp.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("ApplicationUsers", (string)null);
                 });
 
             modelBuilder.Entity("KovsieCash_WebApp.Models.Transaction", b =>
@@ -141,7 +137,7 @@ namespace KovsieCash_WebApp.Migrations
 
                     b.HasIndex("AccountNumber");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Transaction", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -274,11 +270,13 @@ namespace KovsieCash_WebApp.Migrations
 
             modelBuilder.Entity("KovsieCash_WebApp.Models.Account", b =>
                 {
-                    b.HasOne("KovsieCash_WebApp.Models.KovsieCash_WebApp.Models.ApplicationUser", null)
+                    b.HasOne("KovsieCash_WebApp.Models.KovsieCash_WebApp.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Accounts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("KovsieCash_WebApp.Models.Transaction", b =>

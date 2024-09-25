@@ -6,10 +6,10 @@ namespace KovsieCash_WebApp.Models
     {
         public class ApplicationUser : IdentityUser
         {
-            public string UserType { get; set; } // E.g., "Admin", "Consultant", "Advisor", "Customer"
+            //public string UserType { get; set; } // E.g., "Admin", "Consultant", "Advisor", "Customer"
 
             // Navigation property for accounts linked to this user
-            public virtual ICollection<Account> Accounts { get; set; }
+            public ICollection<Account> Accounts { get; set; }
         }
     }
 }

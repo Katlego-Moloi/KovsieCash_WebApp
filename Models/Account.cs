@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using KovsieCash_WebApp.Models.KovsieCash_WebApp.Models;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KovsieCash_WebApp.Models
 {
@@ -14,11 +16,14 @@ namespace KovsieCash_WebApp.Models
         [Required]
         public string UserId { get; set; } // Foreign key for user
 
-        // Other account-related properties can be added here
-        public string AccountHolderName { get; set; } // Example property
-        public decimal Balance { get; set; } // Example property
+        public string AccountHolderName { get; set; } 
+        public decimal Balance { get; set; } 
 
         // Navigation property for transactions related to this account
         public ICollection<Transaction> Transactions { get; set; }
+
+        // Navigation property to the linked account
+        [ForeignKey("UserId")]
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }

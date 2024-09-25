@@ -16,12 +16,15 @@ namespace KovsieCash_WebApp.Data
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
 
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configure relationships
-            modelBuilder.Entity<Account>()
+            modelBuilder.Entity<Account>().ToTable("Account");
+            modelBuilder.Entity<Transaction>().ToTable("Transaction");
+            modelBuilder.Entity<ApplicationUser>().ToTable("ApplicationUsers");
         }
     }
 }

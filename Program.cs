@@ -1,22 +1,19 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using KovsieCash_WebApp.Data;
+using KovsieCash_WebApp.Models;
+using KovsieCash_WebApp.Models.KovsieCash_WebApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using KovsieCash_WebApp.Data;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Configure Entity Framework and SQLite
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
 // Configure Identity services
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     // Password settings, etc.
     options.Password.RequireDigit = true;
@@ -28,15 +25,19 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
 
+
+// Configure Entity Framework and SQLite
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddRouting(options =>
+{
+    options.LowercaseUrls = true;
+    options.AppendTrailingSlash = true;
+});
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
-}
-app.UseHttpsRedirection(); // Enforce HTTPS
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -46,9 +47,10 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}/{slug?}");
 
 // Seed data if necessary
+SeedData.CreateUsers(app);
 SeedData.EnsurePopulated(app);
 
 app.Run();

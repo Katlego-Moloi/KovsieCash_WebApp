@@ -2,13 +2,13 @@
 
 namespace KovsieCash_WebApp.Data
 {
-    public class UnitOfWork : IUnitOfWork, IDisposable
+    public class RepositoryWrapper : IRepositoryWrapper
     {
         private readonly AppDbContext _appDbContext;
         private IAccountRepository _accounts;
         private ITransactionRepository _transactions;
 
-        public UnitOfWork(AppDbContext appDbContext)
+        public RepositoryWrapper(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
