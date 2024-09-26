@@ -23,7 +23,7 @@ namespace KovsieCash_WebApp.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("AccountHolderName")
+                    b.Property<string>("AccountName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -119,6 +119,9 @@ namespace KovsieCash_WebApp.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18, 2)");
 
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18, 2)");
+
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("TEXT");
 
@@ -127,7 +130,7 @@ namespace KovsieCash_WebApp.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("TransactionType")
+                    b.Property<int>("Type")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("TransactionId");

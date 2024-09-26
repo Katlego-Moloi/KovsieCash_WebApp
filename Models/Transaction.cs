@@ -27,10 +27,15 @@ namespace KovsieCash_WebApp.Models
 
         // Type of the transaction: Deposit, Withdrawal, or Transfer
         [Required]
-        public TransactionType TransactionType { get; set; }
+        public TransactionType Type { get; set; }
 
-        // Foreign key to Account using AccountNumber
-        [Required]
+		// Ongoing balance on account
+		[Required]
+		[Column(TypeName = "decimal(18, 2)")]
+		public decimal Balance { get; set; }
+
+		// Foreign key to Account using AccountNumber
+		[Required]
         [StringLength(20)]
         public string AccountNumber { get; set; } // Foreign key
 

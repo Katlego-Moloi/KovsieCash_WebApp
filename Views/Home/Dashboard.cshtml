@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<Account>
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -58,12 +59,15 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <a role="link" class="float-end" style="margin-right:10px;">
-                        <!-- add icon and words here-->
-                        <span style="font-size:2em" class="widget-icon">
-                            <i class="fa-solid fa-file "></i>
-                        </span>
-                        <p>Statments and Documents Here</p>
+                    <a role="link" class="float-end" style="margin-right:10px; text-decoration:none">
+                        <div class="row" style="height:80px">
+                            <span style="font-size:2em" class="col-1 widget-icon">
+                                <i class="fa-solid fa-file "></i>
+                            </span>
+                            <div class="col-11">
+                                <p>Statments and Documents Here</p>
+                            </div>
+                        </div>
                     </a>
                 </div>
             </div>
@@ -102,53 +106,59 @@
 
                 <!-- List of accounts -->
                 <div style="background-color:#FFFFFF; class="container-fluid">
-                    <div class="row" asp-controller="Accounts" asp-action="Info" role="button" onclick="location.href='@Url.Action("Info", "Accounts")'">
-                        <div class="col-lg-9">
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <p class="my-o">Current</p>
-                                    <p style="color:#A7A8AA; font-size:0.8em; margin-top:-20px;">12345678910</p>
-                                </div>
+                    @foreach (Account account in Model)
+                    {
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <a asp-action="List" asp-controller="Transaction" asp-route-id=@account.AccountNumber style="text-decoration:none">
+                                            <p class="my-o">@account.AccountName</p>
+                                            <p style="color:#A7A8AA; font-size:0.8em; margin-top:-20px;">@account.AccountNumber</p>
+                                        </a>
+                                        
+                                    </div>
 
-                                <div class="col-sm-4">
-                                    R500
-                                </div>
+                                    <div class="col-sm-4">
+                                        @String.Format("{0:C}", account.Balance)
+                                    </div>
 
-                                <div class="col-sm-4">
-                                    R500 000
+                                    <div class="col-sm-4">
+                                         @String.Format("{0:C}", account.Balance)
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Account Transaction Options -->
-                        <div class="col-lg-3 visible-lg" style="display:flex; gap:20px">
-                            <div class="item-contain">
-                                <span class="widget-icon">
-                                    <i class="fa-solid fa-credit-card fa-s"></i>
-                                </span>
-
-                                <p>Pay</p>
-                            </div>
-
-                            <a asp-controller="Accounts" asp-action="Transfer" class="item-contain" style="text-decoration: none; cursor: pointer;">
+                            <!-- Account Transaction Options -->
+                            <div class="col-lg-3 visible-lg" style="display:flex; gap:20px">
                                 <div class="item-contain">
                                     <span class="widget-icon">
-                                        <i class="fa-solid fa-exchange fa-s"></i>
+                                        <i class="fa-solid fa-credit-card fa-s"></i>
                                     </span>
 
-                                    <p>Transfer</p>
+                                    <p>Pay</p>
                                 </div>
-                            </a>
 
-                            <div class="item-contain">
-                                <span class="widget-icon">
-                                    <i class="fa-solid fa-shopping-cart fa-s"></i>
-                                </span>
+                                <a asp-controller="Accounts" asp-action="Transfer" asp-route-id="@account.AccountNumber" class="item-contain" style="text-decoration: none; cursor: pointer;">
+                                    <div class="item-contain">
+                                        <span class="widget-icon">
+                                            <i class="fa-solid fa-exchange fa-s"></i>
+                                        </span>
 
-                                <p>Buy</p>
+                                        <p>Transfer</p>
+                                    </div>
+                                </a>
+
+                                <div class="item-contain">
+                                    <span class="widget-icon">
+                                        <i class="fa-solid fa-shopping-cart fa-s"></i>
+                                    </span>
+
+                                    <p>Buy</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
         </div>

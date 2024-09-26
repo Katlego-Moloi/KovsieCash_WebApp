@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using KovsieCash_WebApp.Models;
 using KovsieCash_WebApp.Models.KovsieCash_WebApp.Models;
 
-namespace GuitarShop.Controllers
+namespace KovsieCash_WebApp.Controllers
 {
     [Authorize]
     public class AccountController : Controller
@@ -51,7 +51,7 @@ namespace GuitarShop.Controllers
                       loginModel.Password, false, false);
                     if (result.Succeeded)
                     {
-                        return Redirect(loginModel?.ReturnUrl ?? "/Home/Index");
+                        return Redirect("/Home/Dashboard");
                     }
                 }
             //}

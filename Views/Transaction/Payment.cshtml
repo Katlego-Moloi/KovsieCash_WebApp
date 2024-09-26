@@ -1,0 +1,48 @@
+﻿@model TransferModel
+@{
+}
+
+<section class="container mt-5">
+    <h2 class="text-center mb-4">Make a Payment</h2>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form asp-action="Payment" method="post" class="shadow p-4 rounded">
+                <div class="form-group mb-3">
+                    <label asp-for="Amount" for="amount" class="form-label">
+                        <i class="fas fa-money-bill-wave"></i> Amount
+                    </label>
+                    <input asp-for="Amount" type="number" class="form-control" id="amount" name="Amount" min="0" step="0.01" placeholder="Enter amount" required />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="form-label">
+                        <i class="fas fa-user"></i> Recipient Name
+                    </label>
+                    <input type="text" class="form-control" id="recipientName" name="RecipientName" placeholder="Enter recipient's name" required />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="toAccNumber" class="form-label">
+                        <i class="fas fa-hashtag"></i> Recipient Account Number
+                    </label>
+                    <input asp-for="toAccNumber" type="text" class="form-control" id="recipientAccount" name="RecipientAccount" placeholder="Enter recipient's account number" required />
+                </div>
+
+                <div class="form-group mb-4">
+                    <label for="reference" class="form-label">
+                        <i class="fas fa-comment"></i> Payment Reference
+                    </label>
+                    <input asp-for="Reference" type="text" class="form-control" id="reference" name="Reference" placeholder="Enter reference (optional)" />
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Submit Payment
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+

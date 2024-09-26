@@ -18,7 +18,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 px-1">
             <!-- Logo that is going to be used to navigate -->
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                 <img width="200px" src="~/images/kovsie cash.png" />
@@ -89,17 +89,76 @@
 
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3 px-0">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - KovsieCash_WebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer class="px-3">
+        <div class="pt-2">
+            <div class="row">
+                <!-- Company Info -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="mb-2 border-1 pt-3">
+                        <p>205 Nelson Mandela Dr</p>
+                        <p>Park West, Bloemfontein, 9301</p>
+                        <p class="mt-3"><strong>Phone:</strong> <span>+27 51 401 3000 / 2525 / 9288</span></p>
+                        <p><strong>Email:</strong> <span>studentadmin@ufs.ac.za</span></p>
+                    </div>
+                    <div class=" d-flex mt-4">
+                        <a href="https://twitter.com/UFSweb?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i class="fa-brands fa-x-twitter fa-xl"></i></a>
+                        <a href="https://www.facebook.com/UFSweb/"><i class="fa-brands fa-facebook-f fa-xl"></i></a>
+                        <a href="https://www.instagram.com/ufsweb/"><i class="fa-brands fa-instagram fa-xl"></i></a>
+                        <a href="https://www.linkedin.com/school/ufsweb/"><i class="fa-brands fa-linkedin-in fa-xl"></i></a>
+                    </div>
+                </div>
+
+                <!-- Useful Links -->
+                <div class="col-lg-2 col-md-3 footer-links">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About us</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Terms of service</a></li>
+                        <li><a href="#">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Our Services -->
+                <div class="col-lg-2 col-md-3 footer-links">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><a href="#">Web Design</a></li>
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Product Management</a></li>
+                        <li><a href="#">Marketing</a></li>
+                        <li><a href="#">Graphic Design</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter Form -->
+                <div class="col-lg-4 col-md-12 footer-newsletter">
+                    <h4>Our Newsletter</h4>
+                    <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
+                    <form action="forms/newsletter.php" method="post" class="php-email-form">
+                        <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>
+                        <div class="loading">Loading</div>
+                        <div class="error-message"></div>
+                        <div class="sent-message">Your subscription request has been sent. Thank you!</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="container copyright text-center mt-4">
+            <p>© <span>Copyright</span> <strong class="px-1 sitename">QuickStart</strong><span>All Rights Reserved</span></p>
+            <div class="credits">
+                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+            </div>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
