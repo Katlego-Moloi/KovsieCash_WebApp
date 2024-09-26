@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace KovsieCash_WebApp.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigrations : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -56,7 +56,7 @@ namespace KovsieCash_WebApp.Migrations
                 {
                     AccountNumber = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
                     UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    AccountHolderName = table.Column<string>(type: "TEXT", nullable: false),
+                    AccountName = table.Column<string>(type: "TEXT", nullable: false),
                     Balance = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -185,7 +185,8 @@ namespace KovsieCash_WebApp.Migrations
                     Reference = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     DateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    TransactionType = table.Column<int>(type: "INTEGER", nullable: false),
+                    Type = table.Column<int>(type: "INTEGER", nullable: false),
+                    Balance = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     AccountNumber = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false)
                 },
                 constraints: table =>

@@ -26,16 +26,16 @@ namespace KovsieCash_WebApp.Data
             {
                 context.Accounts.AddRange(
                     new Account { AccountNumber = GenerateAccountNumber(), 
-                        UserId=context.ApplicationUsers.FirstOrDefault(u => u.UserName == "customer").Id, 
-                        AccountHolderName="Some Guy" }
+                        UserId=context.ApplicationUsers.FirstOrDefault(u => u.UserName == "Customer").Id, 
+                        AccountName="Current" }
                     );;
 
                 context.Accounts.AddRange(
                     new Account
                     {
                         AccountNumber = GenerateAccountNumber(),
-                        UserId = context.ApplicationUsers.FirstOrDefault(u => u.UserName == "customer").Id,
-                        AccountHolderName = "Some Guy"
+                        UserId = context.ApplicationUsers.FirstOrDefault(u => u.UserName == "Customer").Id,
+                        AccountName = "Savings"
                     }
                     ); ;
             }
@@ -46,15 +46,19 @@ namespace KovsieCash_WebApp.Data
             {
                 foreach (Account account in context.Accounts.AsQueryable())
                 {
-                    context.Transactions.AddRange(
-                        new Transaction
-                        {
+                    decimal amount = Decimal.Parse(GenerateAccountNumber());
+					account.Balance = amount;
+					context.Accounts.Update(account);
 
-                            AccountNumber = account.AccountNumber,
+					context.Transactions.AddRange(
+                        new Transaction
+                        {						
+							AccountNumber = account.AccountNumber,
                             Reference = "Deposit",
                             DateTime = DateTime.Now,
-                            Amount = Decimal.Parse(GenerateAccountNumber()),
-                            TransactionType = TransactionType.Deposit,
+                            Amount = amount,
+                            Type = TransactionType.Deposit,
+                            Balance = amount,
 
                         });
                 }
@@ -115,7 +119,7 @@ namespace KovsieCash_WebApp.Data
         {
             // Generate a random account number (10-digit number)
             Random random = new Random();
-            return random.Next(1000000000, 999999999).ToString().PadLeft(10, '0');
+            return random.Next(999999999).ToString().PadLeft(10, '0');
         }
 
     }

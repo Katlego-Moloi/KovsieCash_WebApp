@@ -1,0 +1,45 @@
+﻿@model TransferModel
+@{
+}
+
+<div class="text-center" style="background-color: #F9F9F9">
+    <h1>How much would you like to transfer?</h1>
+    <form asp-controller="Accounts" asp-action="Transfer" method="post">
+        <!-- Amount Input -->
+        <label asp-for="Amount"></label>
+        <input asp-for="Amount" type="text" id="transfer_amount"><br><br>
+
+        <!-- From Account Dropdown -->
+        <div class="mb-3">
+            <label asp-for="fromAccNumber" class="form-label">From Account:</label>
+            <select asp-for="fromAccNumber" class="form-select" id="account_from">
+                @foreach (Account account in ViewBag.Accounts)
+                {
+                    <option value="@account.AccountNumber">
+                        @account.AccountName - @String.Format("{0:C}", account.Balance)
+                    </option>
+                }
+            </select>
+        </div>
+
+        <!-- To Account Dropdown -->
+        <div class="mb-3">
+            <label asp-for="toAccNumber" class="form-label">To Account:</label>
+            <select asp-for="toAccNumber" class="form-select" id="account_from">
+                @foreach (Account account in ViewBag.Accounts)
+                {
+                    <option value="@account.AccountNumber">
+                        @account.AccountName - @String.Format("{0:C}", account.Balance)
+                    </option>
+                }
+            </select>
+        </div><br><br>
+
+        <!-- Reference Input -->
+        <label asp-for="Reference">Your Reference: (Optional)</label>
+        <input asp-for="Reference" type="text" id="transfer_reference"><br><br>
+
+        <!-- Submit Button -->
+        <input type="submit" value="Submit">
+    </form>
+</div>

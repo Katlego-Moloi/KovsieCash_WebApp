@@ -1,0 +1,29 @@
+﻿@model Account
+@{
+}
+
+<h1>Account Details for @Model.AccountName</h1>
+<h2>@Model.AccountNumber</h2>
+</br>
+<table class="table table-bordered table-striped">
+	<tr>
+		<th>Transaction</th>
+		<th>Amount</th>
+		<th>Balance</th>
+	</tr>
+
+	@foreach(Transaction transaction in Model.Transactions)
+	{
+		<tr>
+			<td> @transaction.Reference </td>
+			<td> @String.Format("{0:C}",transaction.Amount) </td>
+			<td> @String.Format("{0:C}",transaction.Balance) </td>
+		</tr>
+	}
+
+	
+</tabl>
+
+<div class="text-center" style="background-color: #F9F9F9">
+
+</div>

@@ -12,15 +12,15 @@ namespace KovsieCash_WebApp.Models
         [StringLength(20)]
         public string AccountNumber { get; set; }
 
-        // User ID of the account holder
-        [Required]
-        public string UserId { get; set; } // Foreign key for user
-
-        public string AccountHolderName { get; set; } 
+        public string AccountName { get; set; } 
         public decimal Balance { get; set; } 
 
         // Navigation property for transactions related to this account
         public ICollection<Transaction> Transactions { get; set; }
+
+        // User ID of the account holder
+        [Required]
+        public string UserId { get; set; } // Foreign key for user
 
         // Navigation property to the linked account
         [ForeignKey("UserId")]

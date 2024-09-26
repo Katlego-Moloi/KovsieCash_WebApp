@@ -9,7 +9,7 @@ namespace KovsieCash_WebApp.Models
             //public string UserType { get; set; } // E.g., "Admin", "Consultant", "Advisor", "Customer"
 
             // Navigation property for accounts linked to this user
-            public ICollection<Account> Accounts { get; set; }
+            public List<Account> Accounts { get; set; }
         }
     }
 }

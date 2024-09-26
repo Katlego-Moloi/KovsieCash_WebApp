@@ -6,5 +6,7 @@ namespace KovsieCash_WebApp.Data
     public interface IAccountRepository : IRepositoryBase<Account>
     {
         IEnumerable<Account> GetAccountsByUserId(string userId);
+
+        public Account GetAccountWithHistory(string accountNumber);
     }
 }
