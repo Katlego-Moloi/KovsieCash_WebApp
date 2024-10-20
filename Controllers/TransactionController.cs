@@ -1,6 +1,5 @@
 ﻿using KovsieCash_WebApp.Data;
 using KovsieCash_WebApp.Models;
-using KovsieCash_WebApp.Models.KovsieCash_WebApp.Models;
 using KovsieCash_WebApp.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -26,19 +25,16 @@ namespace KovsieCash_WebApp.Controllers
 		[HttpGet]
 		public IActionResult Add(string id)
 		{
-			ViewBag.Id = id;
-
 			// Get the user ID from the claims
 			string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
 			// Retrieve accounts linked to the user
 			IEnumerable<Account> accounts = _repo.Accounts.GetAccountsByUserId(userId);
 
-			ViewBag.Id = id;
 			ViewBag.Accounts = accounts;
 
 			// Pass the accounts to the view
-			return View("Add", new TransferModel());
+			return View("Add", new TransferModel { TransferType = id });
 		}
 
 		[HttpPost]

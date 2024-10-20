@@ -1,0 +1,96 @@
+﻿@model IEnumerable<ApplicationUserModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center" style="background-color: #F9F9F9">
+    <div class="greeting col-md-12 col-sm-6 col-xs-12 py-2">
+        <h1>Welcome @User.Identity.Name</h1>
+    </div>
+
+    <div class="dashboard-container pt-2">
+        <div class="accounts">
+            <div class="account-widget Bank">
+                <div style="background-color:#FFFFFF;" class="container">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <div class="row">
+                                <div class="col-2"><h5>UserId</h5></div>
+                                <div class="col-3"><h5>UserName</h5></div>
+                                <div class="col-3"><h5>Email</h5></div>
+                                <div class="col-2"><h5>Phone Number</h5></div>
+                                <div class="col-2"><h5>User Type</h5></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 d-none d-lg-block">&nbsp;</div>
+                    </div>
+
+                    @foreach (ApplicationUserModel user in Model)
+                    {
+                        <div class="row mt-4 border-top pt-2">
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <a href="javascript:navigateToReport('@user.Id')" style="text-decoration:none">
+                                            <p style="font-size:0.75em">@user.Id</p>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-3">@user.UserName</div>
+                                    <div class="col-sm-3">@user.Email</div>
+                                    <div class="col-sm-2">@user.PhoneNumber</div>
+                                    <div class="col-sm-2">@user.UserType</div>
+                                </div>
+                            </div>
+                            <div class="col-3" style="display:flex; gap:20px">
+                                <div class="item-contain">
+                                    <span class="widget-icon"><i class="fa-solid fa-user-edit"></i></span>
+                                    <p>Edit</p>
+                                </div>
+                                <a asp-controller="Accounts" asp-action="Transfer" asp-route-id="@user.Id" class="item-contain" style="text-decoration: none; cursor: pointer;">
+                                    <div class="item-contain">
+                                        <span class="widget-icon"><i class="fa-solid fa-user-xmark"></i></span>
+                                        <p>Delete User</p>
+                                    </div>
+                                </a>
+                                <div class="item-contain">
+                                    <span class="widget-icon"><i class="fa-solid fa-plus-square"></i></span>
+                                    <p>Add Account</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        @foreach (Account account in user.Accounts)
+                        {
+                            <div class="row">
+                                <div class="col-1 invisible">&nbsp;</div>
+                                <div class="col-1">@account.AccountName</div>
+                                <div class="col-1">@account.AccountNumber</div>
+                                <div class="col-2">@String.Format("{0:C}", @account.Balance)</div>
+                                <div class="col-2">
+                                    <a class="mx-1" asp-controller="Transaction" asp-action="List" asp-route-id="@account.AccountNumber">
+                                        <span class="widget-icon"><i class="fa-solid fa-edit"></i></span>
+                                    </a>
+                                    <a class="mx-1" asp-controller="Accounts" asp-action="Transfer" asp-route-id="@user.Id">
+                                        <span class="widget-icon"><i class="fa-solid fa-remove"></i></span>
+                                    </a>
+                                    <a class="mx-1" asp-controller="Accounts" asp-action="Transfer" asp-route-id="@user.Id">
+                                        <span class="widget-icon"><i class="fa-solid fa-money-bill"></i></span>
+                                    </a>
+                                </div>
+                                <div class="col-5 invisible">&nbsp;</div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function navigateToReport(userId) {
+        var currentMonth = new Date().getMonth() + 1;
+        var url = '@Url.Action("Details", "Account")' + '?monthOfReport=' + currentMonth + '&userId=' + userId;
+        window.location.href = url;
+    }
+</script>

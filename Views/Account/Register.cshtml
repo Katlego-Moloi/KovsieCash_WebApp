@@ -19,5 +19,38 @@
         <label asp-for="ConfirmPassword"></label>
         <input asp-for="ConfirmPassword" class="form-control" />
     </div>
+
+    <!-- Profile Picture Upload -->
+    <div class="form-group">
+        <label for="ProfilePicture">Profile Picture</label>
+        <div class="profile-picture-container" style="text-align:center;">
+            <!-- Default profile picture until user selects a file -->
+            <img id="profilePicturePreview" src="/images/profilepictures/default.webp" alt="Profile Picture"
+                 style="width:150px; height:150px; border-radius:50%; cursor:pointer;"
+                 onclick="document.getElementById('fileInput').click();" />
+        </div>
+
+        <!-- Hidden file input to trigger with the image click -->
+        <input type="file" id="fileInput" name="ProfilePicture" style="display:none;" accept="image/*" onchange="previewImage();" />
+    </div>
+
     <button class="btn btn-primary" type="submit">Register</button>
 </form>
+
+@section Scripts {
+    <script type="text/javascript">
+        function previewImage() {
+            console.log("previewImage called"); // Debugging line
+            var file = document.getElementById("fileInput").files[0];
+            var reader = new FileReader();
+
+            reader.onloadend = function () {
+                document.getElementById("profilePicturePreview").src = reader.result;
+            };
+
+            if (file) {
+                reader.readAsDataURL(file); // Convert the file into a base64 string and preview it
+            }
+        }
+    </script>
+}

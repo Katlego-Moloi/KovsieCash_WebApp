@@ -1,0 +1,169 @@
+﻿@model IEnumerable<Notification>
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Notifications";
+    ApplicationUser currentUser = UserManager.GetUserAsync(User).Result;
+    string userId = currentUser.Id;
+    IEnumerable<Notification> unreadNotifications = Model.Where(n => n.UserID == userId && n.Status == NotificationStatus.Unread);
+    IEnumerable<Notification> readNotifications = Model.Where(n => n.UserID == userId && n.Status == NotificationStatus.Unread);
+
+}
+
+<div class="container mt-5">
+    <h3 class="mb-4">Unread Notifications</h3>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="list-group">
+                @if (unreadNotifications.Count() > 0)
+                {
+                    @foreach (var notification in unreadNotifications)
+                    {
+                        if (notification.Type == NotificationType.RoleRequest)
+                        {
+                            <!-- Row for Role Change Notification with Accept/Reject -->
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>
+                                    <strong>@notification.Type:</strong>
+                                    @notification.NotificationDescription.Substring(0, Math.Min(40, notification.NotificationDescription.Length))...
+                                    <small class="text-muted">(@notification.NotificationDateTime.ToString("yyyy-MM-dd HH:mm"))</small>
+                                </span>
+                                <span>
+                                    <a href="@Url.Action("AcceptRoleChange", "Notification", new { id = notification.UserID })" class="btn btn-success btn-sm">Accept</a>
+                                    <a href="@Url.Action("RejectRoleChange", "Notification", new { id = notification.UserID })" class="btn btn-danger btn-sm">Reject</a>
+                                </span>
+                            </div>
+                        }
+                        else if (notification.Type == NotificationType.Advice)
+                        {
+                            <!-- Row for Advice Type Notification - Clickable Row -->
+                            <a asp-action="Details" asp-controller="Notification" asp-route-id="@notification.UserID" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                <span>
+                                    <strong>@notification.Type:</strong>
+                                    @notification.NotificationDescription.Substring(0, Math.Min(40, notification.NotificationDescription.Length))...
+                                </span>
+                                <small class="text-muted">@notification.NotificationDateTime.ToString("yyyy-MM-dd HH:mm")</small>
+                            </a>
+                        }
+                        else
+                        {
+                            <!-- Default Row for General Notifications -->
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>
+                                    <strong>@notification.Type:</strong>
+                                    @notification.NotificationDescription.Substring(0, Math.Min(40, notification.NotificationDescription.Length))...
+                                </span>
+                                <small class="text-muted">@notification.NotificationDateTime.ToString("yyyy-MM-dd HH:mm")</small>
+                            </div>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    <h3 class="mb-4">Unread Notifications</h3>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="list-group">
+                @if (unreadNotifications.Count() > 0)
+                {
+                    @foreach (var notification in unreadNotifications)
+                    {
+                        if (notification.Type == NotificationType.RoleRequest)
+                        {
+                            <!-- Row for Role Change Notification with Accept/Reject -->
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>
+                                    <strong>@notification.Type:</strong>
+                                    @notification.NotificationDescription.Substring(0, Math.Min(40, notification.NotificationDescription.Length))...
+                                    <small class="text-muted">(@notification.NotificationDateTime.ToString("yyyy-MM-dd HH:mm"))</small>
+                                </span>
+                                <span>
+                                    <a href="@Url.Action("AcceptRoleChange", "Notification", new { id = notification.UserID })" class="btn btn-success btn-sm">Accept</a>
+                                    <a href="@Url.Action("RejectRoleChange", "Notification", new { id = notification.UserID })" class="btn btn-danger btn-sm">Reject</a>
+                                </span>
+                            </div>
+                        }
+                        else if (notification.Type == NotificationType.Advice)
+                        {
+                            <!-- Row for Advice Type Notification - Clickable Row -->
+                            <a asp-action="Details" asp-controller="Notification" asp-route-id="@notification.UserID" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                <span>
+                                    <strong>@notification.Type:</strong>
+                                    @notification.NotificationDescription.Substring(0, Math.Min(40, notification.NotificationDescription.Length))...
+                                </span>
+                                <small class="text-muted">@notification.NotificationDateTime.ToString("yyyy-MM-dd HH:mm")</small>
+                            </a>
+                        }
+                        else
+                        {
+                            <!-- Default Row for General Notifications -->
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>
+                                    <strong>@notification.Type:</strong>
+                                    @notification.NotificationDescription.Substring(0, Math.Min(40, notification.NotificationDescription.Length))...
+                                </span>
+                                <small class="text-muted">@notification.NotificationDateTime.ToString("yyyy-MM-dd HH:mm")</small>
+                            </div>
+                        }
+                    }
+                }
+
+                @if (unreadNotifications.Count() == 0)
+                {
+                    <h4>You have no unread notifications</h4>
+                }
+            </div>
+        </div>
+    </div><h3 class="mb-4">Read Notifications</h3>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="list-group">
+                @foreach (var notification in readNotifications)
+                {
+                    if (notification.Type == NotificationType.RoleRequest)
+                    {
+                        <!-- Row for Role Change Notification with Accept/Reject -->
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <strong>@notification.Type:</strong>
+                                @notification.NotificationDescription.Substring(0, Math.Min(40, notification.NotificationDescription.Length))...
+                                <small class="text-muted">(@notification.NotificationDateTime.ToString("yyyy-MM-dd HH:mm"))</small>
+                            </span>
+                            <span>
+                                <a href="@Url.Action("AcceptRoleChange", "Notification", new { id = notification.UserID })" class="btn btn-success btn-sm">Accept</a>
+                                <a href="@Url.Action("RejectRoleChange", "Notification", new { id = notification.UserID })" class="btn btn-danger btn-sm">Reject</a>
+                            </span>
+                        </div>
+                    }
+                    else if (notification.Type == NotificationType.Advice)
+                    {
+                        <!-- Row for Advice Type Notification - Clickable Row -->
+                        <a asp-action="Details" asp-controller="Notification" asp-route-id="@notification.UserID" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <span>
+                                <strong>@notification.Type:</strong>
+                                @notification.NotificationDescription.Substring(0, Math.Min(40, notification.NotificationDescription.Length))...
+                            </span>
+                            <small class="text-muted">@notification.NotificationDateTime.ToString("yyyy-MM-dd HH:mm")</small>
+                        </a>
+                    }
+                    else
+                    {
+                        <!-- Default Row for General Notifications -->
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <strong>@notification.Type:</strong>
+                                @notification.NotificationDescription.Substring(0, Math.Min(40, notification.NotificationDescription.Length))...
+                            </span>
+                            <small class="text-muted">@notification.NotificationDateTime.ToString("yyyy-MM-dd HH:mm")</small>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

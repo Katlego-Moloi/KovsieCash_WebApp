@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KovsieCash_WebApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240925133549_InitialMigration")]
+    [Migration("20241020111823_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -30,7 +30,7 @@ namespace KovsieCash_WebApp.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Balance")
+                    b.Property<double>("Balance")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
@@ -44,7 +44,41 @@ namespace KovsieCash_WebApp.Migrations
                     b.ToTable("Account", (string)null);
                 });
 
-            modelBuilder.Entity("KovsieCash_WebApp.Models.KovsieCash_WebApp.Models.ApplicationUser", b =>
+            modelBuilder.Entity("KovsieCash_WebApp.Models.Advice", b =>
+                {
+                    b.Property<int>("AdviceID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("AdviceDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AdviceDescription")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AdviceTitle")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AdviseeId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AdviserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AdviceID");
+
+                    b.HasIndex("AdviseeId");
+
+                    b.HasIndex("AdviserId");
+
+                    b.ToTable("Advice");
+                });
+
+            modelBuilder.Entity("KovsieCash_WebApp.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -86,6 +120,10 @@ namespace KovsieCash_WebApp.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("ProfilePicture")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 
@@ -108,6 +146,92 @@ namespace KovsieCash_WebApp.Migrations
                     b.ToTable("ApplicationUsers", (string)null);
                 });
 
+            modelBuilder.Entity("KovsieCash_WebApp.Models.Beneficiary", b =>
+                {
+                    b.Property<int>("BeneficiaryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AccountNumbers")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("BeneficiaryName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("BeneficiaryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Beneficiaries", (string)null);
+                });
+
+            modelBuilder.Entity("KovsieCash_WebApp.Models.Notification", b =>
+                {
+                    b.Property<int>("NotificationID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("NotificationDateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NotificationDescription")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("NotificationID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Notifications", (string)null);
+                });
+
+            modelBuilder.Entity("KovsieCash_WebApp.Models.Review", b =>
+                {
+                    b.Property<int>("ReviewId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("ReviewDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ReviewDescription")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ReviewRating")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ReviewTitle")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ReviewId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews", (string)null);
+                });
+
             modelBuilder.Entity("KovsieCash_WebApp.Models.Transaction", b =>
                 {
                     b.Property<int>("TransactionId")
@@ -119,11 +243,11 @@ namespace KovsieCash_WebApp.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18, 2)");
+                    b.Property<double>("Amount")
+                        .HasColumnType("double(18, 2)");
 
-                    b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(18, 2)");
+                    b.Property<double>("Balance")
+                        .HasColumnType("double(18, 2)");
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("TEXT");
@@ -140,7 +264,7 @@ namespace KovsieCash_WebApp.Migrations
 
                     b.HasIndex("AccountNumber");
 
-                    b.ToTable("Transaction", (string)null);
+                    b.ToTable("Transactions", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -273,13 +397,65 @@ namespace KovsieCash_WebApp.Migrations
 
             modelBuilder.Entity("KovsieCash_WebApp.Models.Account", b =>
                 {
-                    b.HasOne("KovsieCash_WebApp.Models.KovsieCash_WebApp.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("KovsieCash_WebApp.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Accounts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("KovsieCash_WebApp.Models.Advice", b =>
+                {
+                    b.HasOne("KovsieCash_WebApp.Models.ApplicationUser", "Advisee")
+                        .WithMany("AdviceReceived")
+                        .HasForeignKey("AdviseeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("KovsieCash_WebApp.Models.ApplicationUser", "Adviser")
+                        .WithMany("AdviceGiven")
+                        .HasForeignKey("AdviserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Advisee");
+
+                    b.Navigation("Adviser");
+                });
+
+            modelBuilder.Entity("KovsieCash_WebApp.Models.Beneficiary", b =>
+                {
+                    b.HasOne("KovsieCash_WebApp.Models.ApplicationUser", "User")
+                        .WithMany("Beneficiaries")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("KovsieCash_WebApp.Models.Notification", b =>
+                {
+                    b.HasOne("KovsieCash_WebApp.Models.ApplicationUser", "UserToNotify")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserToNotify");
+                });
+
+            modelBuilder.Entity("KovsieCash_WebApp.Models.Review", b =>
+                {
+                    b.HasOne("KovsieCash_WebApp.Models.ApplicationUser", "Reviewee")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Reviewee");
                 });
 
             modelBuilder.Entity("KovsieCash_WebApp.Models.Transaction", b =>
@@ -304,7 +480,7 @@ namespace KovsieCash_WebApp.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("KovsieCash_WebApp.Models.KovsieCash_WebApp.Models.ApplicationUser", null)
+                    b.HasOne("KovsieCash_WebApp.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -313,7 +489,7 @@ namespace KovsieCash_WebApp.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("KovsieCash_WebApp.Models.KovsieCash_WebApp.Models.ApplicationUser", null)
+                    b.HasOne("KovsieCash_WebApp.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -328,7 +504,7 @@ namespace KovsieCash_WebApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KovsieCash_WebApp.Models.KovsieCash_WebApp.Models.ApplicationUser", null)
+                    b.HasOne("KovsieCash_WebApp.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -337,7 +513,7 @@ namespace KovsieCash_WebApp.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("KovsieCash_WebApp.Models.KovsieCash_WebApp.Models.ApplicationUser", null)
+                    b.HasOne("KovsieCash_WebApp.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -349,9 +525,19 @@ namespace KovsieCash_WebApp.Migrations
                     b.Navigation("Transactions");
                 });
 
-            modelBuilder.Entity("KovsieCash_WebApp.Models.KovsieCash_WebApp.Models.ApplicationUser", b =>
+            modelBuilder.Entity("KovsieCash_WebApp.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Accounts");
+
+                    b.Navigation("AdviceGiven");
+
+                    b.Navigation("AdviceReceived");
+
+                    b.Navigation("Beneficiaries");
+
+                    b.Navigation("Notifications");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

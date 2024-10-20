@@ -6,6 +6,8 @@ namespace KovsieCash_WebApp.Models.ViewModels
 {
     public class TransferModel
     {
+        public string TransferType { get; set; }
+
         [Required]
         [StringLength(20)]
         public string fromAccNumber { get; set; }
@@ -14,6 +16,10 @@ namespace KovsieCash_WebApp.Models.ViewModels
         [StringLength(20)]
         public string toAccNumber { get; set; }
 
+        public string toAccHolder { get; set; }
+
+        public bool SaveBeneficiary { get; set; }
+
         // Reference attribute for identifying a transaction
         [Required]
         [StringLength(50)]
@@ -21,8 +27,8 @@ namespace KovsieCash_WebApp.Models.ViewModels
 
         // The amount involved in the transaction
         [Required]
-        [Column(TypeName = "decimal(18, 2)")]
-        public decimal Amount { get; set; }
+        [Column(TypeName = "double(18, 2)")]
+        public double Amount { get; set; }
 
 
     }
