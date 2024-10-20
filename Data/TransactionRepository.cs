@@ -11,14 +11,14 @@ namespace KovsieCash_WebApp.Data
 			_appDbContext = appDbContext;
         }
 
-		public void AddTransaction(string accountNumber, string reference, TransactionType transactionType, decimal amount)
+		public void AddTransaction(string accountNumber, string reference, TransactionType transactionType, double amount)
 		{
 
 
 			Create(new Transaction
 			{
 				AccountNumber = accountNumber,
-				Amount = transactionType == TransactionType.Deposit? amount:Decimal.Negate(amount),
+				Amount = transactionType == TransactionType.Deposit? amount:-amount,
 				Reference = reference == "" ? reference : GenerateReference(transactionType),
 				Type = transactionType,
 				DateTime = DateTime.Now,
@@ -28,7 +28,7 @@ namespace KovsieCash_WebApp.Data
 
 		}
 
-		public void AddTransaction(string accNumFrom, string accNumTo, decimal amount, string reference)
+		public void AddTransaction(string accNumFrom, string accNumTo, double amount, string reference)
 		{
 			Create(new Transaction
 			{
@@ -53,7 +53,7 @@ namespace KovsieCash_WebApp.Data
 			
 		}
 
-		public decimal UpdateAccountBalance(string accountNumber, TransactionType transactionType, decimal amount)
+		public double UpdateAccountBalance(string accountNumber, TransactionType transactionType, double amount)
 		{
 			Account account = _appDbContext.Accounts.FirstOrDefault(a => a.AccountNumber == accountNumber);
 			account.Balance = transactionType == TransactionType.Deposit ? account.Balance + amount : account.Balance - amount;

@@ -1,6 +1,5 @@
 using KovsieCash_WebApp.Data;
 using KovsieCash_WebApp.Models;
-using KovsieCash_WebApp.Models.KovsieCash_WebApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -26,7 +25,15 @@ namespace KovsieCash_WebApp.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return Redirect("/Home/Dashboard");
+                if (User.IsInRole("Customer"))
+                {
+                    return Redirect("/Home/Dashboard");
+                }
+                else
+                {
+                    return Redirect("/Admin/Index");
+                }
+
             }
             return View();
         }

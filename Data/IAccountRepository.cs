@@ -7,6 +7,8 @@ namespace KovsieCash_WebApp.Data
     {
         IEnumerable<Account> GetAccountsByUserId(string userId);
 
-        public Account GetAccountWithHistory(string accountNumber);
+		IEnumerable<Account> GetAccountsByUserWithHistory(string userId);
+
+		public Account GetAccountWithHistory(string accountNumber);
     }
 }

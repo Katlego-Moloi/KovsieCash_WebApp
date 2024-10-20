@@ -16,9 +16,14 @@ namespace KovsieCash_WebApp.Data
             return FindByCondition(account => account.UserId == userId).ToList();
         }
 
-        public Account GetAccountWithHistory(string accountNumber)
+		public IEnumerable<Account> GetAccountsByUserWithHistory(string userId)
+		{
+			return _appDbContext.Accounts.Where(a => a.UserId == userId).Include(a => a.Transactions);
+		}
+
+		public Account GetAccountWithHistory(string accountNumber)
         {
-            return _appDbContext.Accounts.Include(a => a.Transactions).FirstOrDefault(a => a.AccountNumber == accountNumber);
+            return _appDbContext.Accounts.Where(a => a.AccountNumber == accountNumber).Include(a => a.Transactions).FirstOrDefault();
         }
     }
 }

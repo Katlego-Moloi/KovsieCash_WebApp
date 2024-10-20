@@ -1,0 +1,245 @@
+﻿@model ReportViewModel
+@{
+    ViewData["Title"] = "Home Page";
+    string MonthChosen = Model.TransactionsThisMonth.First().DateTime.ToString("MMMM");
+    string PreviousMonth = Model.TransactionsLastMonth.First().DateTime.ToString("MMMM");
+}
+
+<!-- User Profile -->
+<div class="row">
+    <div class="col-4">
+        <img src="@Url.Content($"~/images/profilepictures/{Model.User.ProfilePicture}")"
+             alt="Profile Picture" style="width:100px; height:auto; border-radius:50%;" />
+    </div>
+
+    <div class="col-8">
+        <div class="row">
+            <h1>@Model.User.UserName Account Report</h1>
+        </div>
+        <div class="row">
+            <i class="fa-solid fa-envelope fa-xs"></i>
+            <p>@Model.User.Email</p>
+        </div>
+        <div>
+            <i class="fa-solid fa-phone fa-xs"></i>
+            <p>@Model.User.PhoneNumber</p>
+        </div>
+    </div>
+</div>
+
+<!-- Financial Info -->
+<div>
+    <div class="form-group">
+        <input id="UserId" type="hidden" value="@Model.User.Id" />
+
+        <label for="MonthOfReport">Select Month</label>
+        <select id="MonthOfReport" class="form-control">
+            @foreach (var month in Model.MonthsAvailable)
+            {
+                <option value="@month.Value">@month.Text</option>
+            }
+        </select>
+    </div>
+</div>
+<!-----------------------------             This Months Report               --------------------------->
+<div class="row my-2">
+    <div class="col-2 align-content-center">
+        <canvas id="iveThisMonth"></canvas>
+        <p>Total Variance: @String.Format("{0:C}", Model.VarianceThisMonth)</p>
+    </div>
+
+    <div class="col-10 card">
+        <div class="card-header">
+            @MonthChosen
+        </div>
+
+        <div class="card-body">
+            <p> Expenses: @String.Format("{0:C}", Model.MoneyOutThisMonth)</p>
+            <p> Income: @String.Format("{0:C}", Model.MoneyInThisMonth)</p>
+            <p> Average Weekly Spending: @String.Format("{0:C}", Model.AverageWeeklySpendingThisMonth)</p>
+            <p> Total Withdrawels: @Model.WithdrawalsThisMonth</p>
+
+
+        </div>
+    </div>
+</div>
+
+<!-----------------------------             Last Months Report               --------------------------->
+<div class="row my-2">
+    <div class="col-2 align-content-center">
+        <canvas id="iveLastMonth"></canvas>
+        <p>Total Variance: @String.Format("{0:C}", Model.VarianceLastMonth)</p>
+    </div>
+
+    <div class="col-10 card">
+        <div class="card-header">
+            @PreviousMonth
+        </div>
+
+        <div class="card-body">
+            <p> Expenses: @String.Format("{0:C}", Model.MoneyOutLastMonth)</p>
+            <p> Income: @String.Format("{0:C}", Model.MoneyInLastMonth)</p>
+            <p> Total Withdrawels: @Model.WithdrawalsLastMonth</p>
+
+
+        </div>
+    </div>
+
+</div>
+
+<!-------------------------------------  Other Reporting Info -------------------------------------->
+<!-- Line Chart -->
+<div class="row">
+    <div class="col-6">
+        <canvas id="monthlySpendingChart"></canvas>
+    </div>
+
+    <div class="col-6">
+        <canvas id="dailySpendingChart"></canvas>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+
+    function navigateToReport() {
+        var month = document.getElementById('MonthOfReport').value;
+        var userId = document.getElementById('UserId').value;
+        var url = '@Url.Action("Details", "Account")' + '?monthOfReport=' + month + '&userId=' + userId;
+        window.location.href = url;
+    }
+
+    // Instantiate Canvases
+    const iveChartThisMonth = document.getElementById('iveThisMonth');
+    const iveChartLastMonth = document.getElementById('iveLastMonth');
+
+    // Instantitate this months graph
+    new Chart(iveChartThisMonth, {
+        type: 'doughnut',
+        data: {
+            labels: ['Income', 'Expenses'],
+            datasets: [{
+                label: 'This Month\'s Spending',
+                data: [@Model.MoneyInThisMonth.ToString("F2", System.Globalization.CultureInfo.InvariantCulture), @Model.MoneyOutThisMonth.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)],
+                backgroundColor: ['#80EF80', '#FAA0A0'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            animation: {
+                animateRotate: true, 
+                animateScale: true   
+            }
+        }
+    });
+
+    // Instantitate last months graph
+    new Chart(iveChartLastMonth, {
+        type: 'doughnut',
+        data: {
+            labels: ['Income', 'Expenses'],
+            datasets: [{
+                label: 'This Month\'s Spending',
+                data: [@Model.MoneyInLastMonth.ToString("F2", System.Globalization.CultureInfo.InvariantCulture), @Model.MoneyOutLastMonth.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)],
+                backgroundColor: ['#80EF80', '#FAA0A0'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            animation: {
+                animateRotate: true,
+                animateScale: true
+            }
+        }
+    });
+
+    // Instantiate the Monthly Spending Graph
+    // Get the context of the canvas element
+    const spendingbyMonthGraph = document.getElementById('monthlySpendingChart').getContext('2d');
+
+    // Data for the chart
+    const spendingData = @Html.Raw(Json.Serialize(Model.SpendingByMonth)); // Array of 13 doubles (one per month)
+
+    // Trim the first and last values
+    const trimmedSpendingData = spendingData.slice(1); // Remove the first element
+
+    // Labels for months (only for 12 months, since we trimmed the first and last)
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    // Create the line chart
+    new Chart(spendingbyMonthGraph, {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'Spending by Month',
+                data: trimmedSpendingData, // Use the trimmed array
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Light color for the fill
+                borderColor: 'rgba(75, 192, 192, 1)', // Line color
+                borderWidth: 2,
+                fill: true, // Fills the area under the line
+                tension: 0.1 // Smooth the curve
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true, // Ensures y-axis starts at zero
+                    ticks: {
+                        callback: function (value) {
+                            return 'R ' + value; // Format the ticks with currency symbol (R for rand)
+                        }
+                    }
+                }
+            },
+            responsive: true
+        }
+    });
+
+    // Create the linechart for daily spending
+    // Get the context of the canvas element
+    const ctx = document.getElementById('dailySpendingChart').getContext('2d');
+
+    // Data for the chart (33 values, we will trim the first and last ones)
+    const dailySpendingData = @Html.Raw(Json.Serialize(Model.SpendingByDay)); // Array of 33 doubles
+
+    // Trim the first and last values
+    const trimmedDailySpendingData = dailySpendingData.slice(1, dailySpendingData.length - 1); // Remove first and last element
+
+    // Labels for the days (since we trimmed 2 elements, we have 31 days remaining)
+    const days = Array.from({ length: 31 }, (_, i) => `Day ${i + 1}`); // Generate labels: Day 2 to Day 32
+
+    // Create the line chart
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: days, // Use generated labels for 31 days
+            datasets: [{
+                label: 'Spending by Day',
+                data: trimmedDailySpendingData, // Use the trimmed array
+                backgroundColor: 'rgba(54, 162, 235, 0.2)', // Light blue fill
+                borderColor: 'rgba(54, 162, 235, 1)', // Line color
+                borderWidth: 2,
+                fill: true,
+                tension: 0.1 // Smooth curve
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true, // Ensures y-axis starts at zero
+                    ticks: {
+                        callback: function (value) {
+                            return 'R ' + value; // Format ticks with currency symbol (R for rand)
+                        }
+                    }
+                }
+            },
+            responsive: true
+        }
+    });
+
+</script>

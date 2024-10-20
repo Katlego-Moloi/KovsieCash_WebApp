@@ -22,17 +22,29 @@
             </select>
         </div>
 
+       
         <!-- To Account Dropdown -->
         <div class="mb-3">
-            <label asp-for="toAccNumber" class="form-label">To Account:</label>
-            <select asp-for="toAccNumber" class="form-select" id="account_from">
-                @foreach (Account account in ViewBag.Accounts)
-                {
-                    <option value="@account.AccountNumber">
-                        @account.AccountName - @String.Format("{0:C}", account.Balance)
-                    </option>
-                }
-            </select>
+
+            @if (Model.TransferType.ToLower() == "transfer")
+            {
+                <label asp-for="toAccNumber" class="form-label">To Account:</label>
+                <select asp-for="toAccNumber" class="form-select" id="account_from">
+                    @foreach (Account account in ViewBag.Accounts)
+                    {
+                        <option value="@account.AccountNumber">
+                            @account.AccountName - @String.Format("{0:C}", account.Balance)
+                        </option>
+                    }
+                </select>
+            }
+
+            @if (Model.TransferType.ToLower() == "pay")
+            {
+                <label asp-for="toAccNumber" class="form-label">Account Number:</label>
+                <input asp-for="toAccNumber" type="text"><br><br>
+            }
+
         </div><br><br>
 
         <!-- Reference Input -->

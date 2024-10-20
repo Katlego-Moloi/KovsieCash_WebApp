@@ -8,8 +8,8 @@ namespace KovsieCash_WebApp.Data
         IEnumerable<Transaction> GetTransactionsByAccountNumber(string accountNumber);
         IEnumerable<Transaction> GetTransactionsByUserId(string userId);
 
-        void AddTransaction(string accountNumber, string reference, TransactionType transactionType, decimal amount);
+        void AddTransaction(string accountNumber, string reference, TransactionType transactionType, double amount);
 
-		void AddTransaction(string accNumFrom, string accNumTo, decimal amount, string reference);
+		void AddTransaction(string accNumFrom, string accNumTo, double amount, string reference);
 	}
 }

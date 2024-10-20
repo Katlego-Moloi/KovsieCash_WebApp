@@ -1,6 +1,5 @@
 using KovsieCash_WebApp.Data;
 using KovsieCash_WebApp.Models;
-using KovsieCash_WebApp.Models.KovsieCash_WebApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -50,7 +49,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}/{slug?}");
 
 // Seed data if necessary
-SeedData.CreateUsers(app);
-SeedData.EnsurePopulated(app);
+SeedData.PopulateDatabase(app);
 
 app.Run();

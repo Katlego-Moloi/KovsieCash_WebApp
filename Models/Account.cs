@@ -1,4 +1,4 @@
-﻿using KovsieCash_WebApp.Models.KovsieCash_WebApp.Models;
+﻿using KovsieCash_WebApp.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,7 +13,7 @@ namespace KovsieCash_WebApp.Models
         public string AccountNumber { get; set; }
 
         public string AccountName { get; set; } 
-        public decimal Balance { get; set; } 
+        public double Balance { get; set; } 
 
         // Navigation property for transactions related to this account
         public ICollection<Transaction> Transactions { get; set; }
