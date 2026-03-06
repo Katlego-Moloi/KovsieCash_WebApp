@@ -16,9 +16,10 @@ namespace KovsieCash_WebApp.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            IEnumerable<Notification> notifications = _repo.Notifications.FindByCondition(n => n.UserID == _userManager.GetUserAsync(User).Result.Id);
+            ApplicationUser currentUser = await _userManager.GetUserAsync(User);
+            List<Notification> notifications = _repo.Notifications.FindByCondition(n => n.UserID == currentUser.Id).ToList();
 
             foreach (Notification _notification in notifications) 
             {
@@ -26,7 +27,6 @@ namespace KovsieCash_WebApp.Controllers
                 {
                     _notification.Status = NotificationStatus.Read;
                     _repo.Notifications.Update(_notification);
-
                 }
             }
 

@@ -37,17 +37,17 @@ namespace KovsieCash_WebApp.Controllers
             _repo = repo;
         }
 
-		public IActionResult Details(int monthOfReport, string userId)
+		public async Task<IActionResult> Details(int monthOfReport, string userId)    
 		{
 			ApplicationUser user = _repo.ApplicationUsers.FindByCondition(u => u.Id == userId).FirstOrDefault();
 
 			// Get transactions for the selected month
-			IEnumerable<Transaction> transactionsThisMonth = _repo.Transactions.FindByCondition(t => t.Account.UserId == userId && t.DateTime.Month == monthOfReport && t.DateTime.Year == DateTime.Now.Year)
+			List<Transaction> transactionsThisMonth = _repo.Transactions.FindByCondition(t => t.Account.UserId == userId && t.DateTime.Month == monthOfReport && t.DateTime.Year == DateTime.Now.Year)
 				.ToList();
 
 			// Get transactions for the previous month
 			int previousMonth = monthOfReport == 1 ? 12 : monthOfReport - 1;
-			IEnumerable<Transaction> transactionsLastMonth = _repo.Transactions.FindByCondition(t => t.Account.UserId == userId && t.DateTime.Month == previousMonth && t.DateTime.Year == DateTime.Now.Year)
+			List<Transaction> transactionsLastMonth = _repo.Transactions.FindByCondition(t => t.Account.UserId == userId && t.DateTime.Month == previousMonth && t.DateTime.Year == DateTime.Now.Year)
 				.ToList();
 
             List<SelectListItem> monthsAvailable = new List<SelectListItem>();
@@ -107,29 +107,22 @@ namespace KovsieCash_WebApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
-            //if (ModelState.IsValid)
-            //{
-
-                ApplicationUser user =
-                  await _userManager.FindByEmailAsync(loginModel.Email);
-                if (user != null)
+            ApplicationUser user = await _userManager.FindByEmailAsync(loginModel.Email);
+            if (user != null)
+            {
+                var result = await _signInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
+                if (result.Succeeded)
                 {
-                    var result = await _signInManager.PasswordSignInAsync(user,
-                      loginModel.Password, false, false);
-                    if (result.Succeeded)
+                    if (await _userManager.IsInRoleAsync(user, "Customer"))
                     {
-                        if (User.IsInRole("Customer"))
-                        {
-                            return Redirect("/Home/Dashboard");
-                        }
-                        else
-                        {
-                            return Redirect("/Admin/Index");
-                        }
+                        return Redirect("/Home/Dashboard");
+                    }
+                    else
+                    {
+                        return Redirect("/Admin/Index");
                     }
                 }
-            //}
-            //ModelState.AddModelError("", "Invalid email or password");
+            }
             return View(loginModel);
         }
         [HttpGet]

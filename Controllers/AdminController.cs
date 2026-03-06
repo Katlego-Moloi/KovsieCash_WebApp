@@ -17,15 +17,15 @@ namespace KovsieCash_WebApp.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             List<ApplicationUserModel> applicationUsers = new List<ApplicationUserModel>();
 
-            IEnumerable<ApplicationUser> _applicationUsers = _repo.ApplicationUsers.GetUsersWithAccounts();
+            List<ApplicationUser> _applicationUsers = _repo.ApplicationUsers.GetUsersWithAccounts().ToList();
 
             foreach (ApplicationUser _applicationUser in _applicationUsers)
             {
-                List<String> roles = _userManager.GetRolesAsync(_applicationUser).Result.ToList();
+                List<String> roles = (await _userManager.GetRolesAsync(_applicationUser)).ToList();
 
                 applicationUsers.Add(new ApplicationUserModel
                 {

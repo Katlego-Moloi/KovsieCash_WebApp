@@ -1,6 +1,5 @@
 ﻿using KovsieCash_WebApp.Models;
 using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
 using System.Collections.Generic;
 
 namespace KovsieCash_WebApp.Data

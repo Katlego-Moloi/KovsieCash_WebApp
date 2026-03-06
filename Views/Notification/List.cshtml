@@ -3,11 +3,10 @@
 
 @{
     ViewData["Title"] = "Notifications";
-    ApplicationUser currentUser = UserManager.GetUserAsync(User).Result;
+    ApplicationUser currentUser = await UserManager.GetUserAsync(User);
     string userId = currentUser.Id;
     IEnumerable<Notification> unreadNotifications = Model.Where(n => n.UserID == userId && n.Status == NotificationStatus.Unread);
-    IEnumerable<Notification> readNotifications = Model.Where(n => n.UserID == userId && n.Status == NotificationStatus.Unread);
-
+    IEnumerable<Notification> readNotifications = Model.Where(n => n.UserID == userId && n.Status == NotificationStatus.Read);
 }
 
 <div class="container mt-5">

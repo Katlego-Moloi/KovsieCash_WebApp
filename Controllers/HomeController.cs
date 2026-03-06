@@ -44,7 +44,7 @@ namespace KovsieCash_WebApp.Controllers
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             // Retrieve accounts linked to the user
-            IEnumerable<Account> accounts = _repo.Accounts.GetAccountsByUserId(userId);
+            List<Account> accounts = _repo.Accounts.GetAccountsByUserId(userId).ToList();
 
             // Pass the accounts to the view
             return View(accounts);

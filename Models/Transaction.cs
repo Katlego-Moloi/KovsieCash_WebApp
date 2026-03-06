@@ -22,7 +22,7 @@ namespace KovsieCash_WebApp.Models
 
         // The amount involved in the transaction
         [Required]
-        [Column(TypeName = "double(18, 2)")]
+        [Column(TypeName = "double precision")]
         public double Amount { get; set; }
 
         // Type of the transaction: Deposit, Withdrawal, or Transfer
@@ -31,7 +31,7 @@ namespace KovsieCash_WebApp.Models
 
 		// Ongoing balance on account
 		[Required]
-		[Column(TypeName = "double(18, 2)")]
+		[Column(TypeName = "double precision")]
 		public double Balance { get; set; }
 
 		// Foreign key to Account using AccountNumber

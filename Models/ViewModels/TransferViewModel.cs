@@ -27,7 +27,7 @@ namespace KovsieCash_WebApp.Models.ViewModels
 
         // The amount involved in the transaction
         [Required]
-        [Column(TypeName = "double(18, 2)")]
+        [Column(TypeName = "double precision")]
         public double Amount { get; set; }
 
 

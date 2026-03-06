@@ -154,7 +154,7 @@ namespace KovsieCash_WebApp.Data
                 Transaction initDepositTransaction = new Transaction
                 {
                     Reference = "Initial Deposit",
-                    DateTime = DateTime.Parse("2024/01/01"),
+                    DateTime = new DateTime(DateTime.Now.Year, 1, 1),
                     Amount = initialDeposit,
                     Type = TransactionType.Deposit,
                     Balance = account.Balance, // Balance after the deposit
@@ -177,7 +177,7 @@ namespace KovsieCash_WebApp.Data
                 context.Notifications.Add(initialDepositNotification);
 
                 // Generate a random number of transactions (1 to 50)
-                int transactionCount = transactionsRandom.Next(1, 51); // Generates a number between 1 and 50
+                int transactionCount = transactionsRandom.Next(1, 11); // Generates a number between 1 and 50
                 for (int i = 0; i < transactionCount; i++)
                 {
                     DateTime transactionDateTime = GenerateRandomDate();
@@ -295,8 +295,8 @@ namespace KovsieCash_WebApp.Data
             // Create a random number generator
             Random randomDate = new Random();
 
-            // Set the start and end dates for 2024
-            DateTime startDate = new DateTime(2024, 7, 23);
+            // Set the start and end dates for this year
+              DateTime startDate = new DateTime(DateTime.Now.Year, 1, 1);
 
             // Generate a random number of days to add to the start date
             int range = (DateTime.Today - startDate).Days;

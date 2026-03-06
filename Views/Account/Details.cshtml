@@ -1,8 +1,12 @@
 ﻿@model ReportViewModel
 @{
     ViewData["Title"] = "Home Page";
-    string MonthChosen = Model.TransactionsThisMonth.First().DateTime.ToString("MMMM");
-    string PreviousMonth = Model.TransactionsLastMonth.First().DateTime.ToString("MMMM");
+    string MonthChosen = Model.TransactionsThisMonth.Any() 
+        ? Model.TransactionsThisMonth.First().DateTime.ToString("MMMM") 
+        : "No transactions";
+    string PreviousMonth = Model.TransactionsLastMonth.Any() 
+        ? Model.TransactionsLastMonth.First().DateTime.ToString("MMMM") 
+        : "No transactions";
 }
 
 <!-- User Profile -->

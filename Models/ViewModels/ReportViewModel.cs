@@ -50,6 +50,8 @@ namespace KovsieCash_WebApp.Models.ViewModels
         {
             get
             {
+                if (!TransactionsThisMonth.Any()) return 0;
+                
                 DateTime date = TransactionsThisMonth.OrderBy(t => t.DateTime).FirstOrDefault().DateTime;
                 // Get the first day of the month
                 DateTime firstDay = new DateTime(date.Year, date.Month, 1);
