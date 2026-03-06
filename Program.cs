@@ -34,9 +34,9 @@ if (connectionString.StartsWith("postgresql://") || connectionString.StartsWith(
     connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={uri.UserInfo.Split(':')[0]};Password={uri.UserInfo.Split(':')[1]};SSL Mode=Require;Trust Server Certificate=true";
 }
 
-// Configure Entity Framework and SQLite
+// Configure Entity Framework 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(connectionString));
 
 builder.Services.AddRouting(options =>
 {
