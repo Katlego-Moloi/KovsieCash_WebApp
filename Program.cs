@@ -62,4 +62,5 @@ app.MapControllerRoute(
 // Seed data if necessary
 SeedData.PopulateDatabase(app);
 
-app.Run();
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5125";
+app.Run($"http://0.0.0.0:{port}");
